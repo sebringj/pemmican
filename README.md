@@ -10,10 +10,6 @@ Just like its namesake, the legendary survival food, our "pemmican" module is de
 - **Efficient:** Every function in "pemmican" is optimized for performance. It's like getting your daily dose of crypto-vitamins in one go—no filler, all killer.
 - **Versatile:** Whether you're trailblazing through the wilderness of web development or setting up camp in the back-end, "pemmican" has got your back. It's the all-in-one toolkit for your cryptographic needs.
 
-So, if you're looking for a module that's as reliable and enduring as the food that fueled generations of adventurers, "pemmican" is your go-to source of crypto-nutrition. Feed your apps the good stuff, and watch them thrive in the wild untamed expanses of the internet.
-
-Remember, in the digital wilderness, "pemmican" is the survival kit you didn't know you needed—until now.
-
 ## Getting Started
 
 ### Generating a Key Pair
