@@ -21,10 +21,10 @@ Before you can harness the power of "pemmican", you'll need to import it into yo
 ### Generating a Key Pair
 Generate a public/private key pair to start securing your application.
 ```typescript
-import { CryptoUtils } from 'https://raw.githubusercontent.com/sebringj/pemmican/main/mod.ts';
+import { Pemmican } from 'https://raw.githubusercontent.com/sebringj/pemmican/main/mod.ts';
 
 async function generateKeys() {
-  const { publicKeyPem, privateKeyPem } = await CryptoUtils.generateKeyPair();
+  const { publicKeyPem, privateKeyPem } = await Pemmican.generateKeyPair();
   console.log('Public Key:', publicKeyPem);
   console.log('Private Key:', privateKeyPem);
 }
@@ -36,9 +36,9 @@ generateKeys();
 Sign a piece of data using your private key, ensuring that it can be verified by the recipient.
 ```typescript
 async function signMessage() {
-  const { privateKeyPem } = await CryptoUtils.generateKeyPair(); // Assume privateKeyPem is obtained
+  const { privateKeyPem } = await Pemmican.generateKeyPair(); // Assume privateKeyPem is obtained
   const data = 'Hello, Pemmican!';
-  const { signatureBase64, timeStampISO } = await CryptoUtils.signData({ data, privateKeyPem });
+  const { signatureBase64, timeStampISO } = await Pemmican.signData({ data, privateKeyPem });
   console.log('Signature:', signatureBase64);
   console.log('Timestamp:', timeStampISO);
 }
