@@ -21,7 +21,7 @@ Before you can harness the power of "pemmican", you'll need to import it into yo
 ### Generating a Key Pair
 Generate a public/private key pair to start securing your application.
 ```typescript
-import { CryptoUtils } from 'https://your_module_url/pemmican/mod.ts';
+import { CryptoUtils } from 'https://raw.githubusercontent.com/sebringj/pemmican/main/mod.ts';
 
 async function generateKeys() {
   const { publicKeyPem, privateKeyPem } = await CryptoUtils.generateKeyPair();
