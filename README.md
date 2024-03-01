@@ -1,7 +1,5 @@
-# Pemmican: The Ultimate Crypto Nutrition for Your Deno Apps
-<div align="center">
-<img src="./pemmican.webp" width="150px" height="150px" />
-</div>
+# <img src="./pemmican.webp" width="40px" height="40px" /> Pemmican: The Ultimate Crypto Nutrition for Your Deno Apps
+
 Just like its namesake, the legendary survival food, our "pemmican" module is designed to pack a mighty punch of cryptographic power into your Deno projects. With a lean, mean selection of functions, this module is all about delivering the essential nutrients—public/private key generation, PEM conversion, and data signing—without any of the bloat.
 
 ## Why Choose Pemmican?
