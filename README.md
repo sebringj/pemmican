@@ -1,4 +1,4 @@
-<div style="flex:1;align-items:center;justify-content: center;">
+<div style="flex:1;align-items:center;justify-content:center;flex-direction:row">
   <img src="./pemmican.webp" width="40px" height="40px" /> <h1>Pemmican: The Ultimate Crypto Nutrition for Your Deno Apps</h1>
 </div>
 
