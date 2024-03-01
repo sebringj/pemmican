@@ -1,0 +1,5 @@
+{
+  "name": "@sebringj/pemmican",
+  "version": "0.0.1",
+  "exports": "./mod.ts"
+}
