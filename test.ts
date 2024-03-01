@@ -1,5 +1,4 @@
-// crypto_utils_test.ts
-import { CryptoUtils } from './crypto_utils.ts';
+import { Pemmican } from './mod.ts';
 import {
   assertEquals,
   assertStringIncludes,
