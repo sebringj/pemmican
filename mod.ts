@@ -1,5 +1,5 @@
 // crypto_utils.ts
-export class CryptoUtils {
+export class Pemmican {
   // Convert an ArrayBuffer to a PEM string
   static arrayBufferToPem(arrayBuffer: ArrayBuffer, type: string): string {
     const byteArray = new Uint8Array(arrayBuffer);
