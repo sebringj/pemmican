@@ -1,4 +1,3 @@
-// crypto_utils.ts
 export class Pemmican {
   // Convert an ArrayBuffer to a PEM string
   static arrayBufferToPem(arrayBuffer: ArrayBuffer, type: string): string {
