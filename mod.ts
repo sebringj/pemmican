@@ -1,5 +1,16 @@
+/**
+ * A utility class named Pemmican for cryptographic operations, 
+ * including converting between PEM format and ArrayBuffer, generating key pairs, and signing data.
+ */
 export class Pemmican {
-  // Convert an ArrayBuffer to a PEM string
+
+  /**
+   * Converts an ArrayBuffer to a PEM-formatted string.
+   * 
+   * @param arrayBuffer The ArrayBuffer to convert.
+   * @param type The type of key to generate the PEM for, e.g., "PUBLIC" or "PRIVATE".
+   * @returns A string in PEM format.
+   */
   static arrayBufferToPem(arrayBuffer: ArrayBuffer, type: string): string {
     const byteArray = new Uint8Array(arrayBuffer);
     const base64 = btoa(String.fromCharCode(...byteArray));
@@ -7,7 +18,13 @@ export class Pemmican {
     return pem;
   }
 
-  // Convert a PEM string to an ArrayBuffer
+  /**
+   * Converts a PEM-formatted string to an ArrayBuffer.
+   * 
+   * @param pem The PEM string to convert.
+   * @param type The type of key the PEM string represents, e.g., "PUBLIC" or "PRIVATE".
+   * @returns An ArrayBuffer representing the binary data of the key.
+   */
   static pemToArrayBuffer(pem: string, type: string): ArrayBuffer {
     const base64 = pem.replace(`-----BEGIN ${type} KEY-----`, '').replace(`-----END ${type} KEY-----`, '').replace(/\s/g, '');
     const byteString = atob(base64);
@@ -18,7 +35,11 @@ export class Pemmican {
     return byteArray.buffer;
   }
 
-  // Generate a public/private key pair in PEM format
+  /**
+   * Asynchronously generates a public/private key pair using RSA and returns them in PEM format.
+   * 
+   * @returns A Promise that resolves to an object containing the public and private keys in PEM format.
+   */
   static async generateKeyPair(): Promise<{ publicKeyPem: string, privateKeyPem: string }> {
     const keyPair = await crypto.subtle.generateKey(
         {
@@ -40,7 +61,12 @@ export class Pemmican {
     return { publicKeyPem, privateKeyPem };
   }
 
-  // Sign data and return signature and timestamp
+  /**
+   * Signs data using a private key and returns the signature and a timestamp.
+   * 
+   * @param params An object containing the data to be signed and the PEM-formatted private key.
+   * @returns A Promise that resolves to an object containing the base64 encoded signature and an ISO formatted timestamp.
+   */
   static async signData(params: { data: string, privateKeyPem: string }): Promise<{
     signatureBase64: string;
     timeStampISO: string;
