@@ -16,8 +16,6 @@ Remember, in the digital wilderness, "pemmican" is the survival kit you didn't k
 
 ## Getting Started
 
-Before you can harness the power of "pemmican", you'll need to import it into your Deno project. Here's how you can do it:
-
 ### Generating a Key Pair
 Generate a public/private key pair to start securing your application.
 ```typescript
@@ -35,6 +33,8 @@ generateKeys();
 ### Signing Data
 Sign a piece of data using your private key, ensuring that it can be verified by the recipient.
 ```typescript
+import { Pemmican } from 'https://raw.githubusercontent.com/sebringj/pemmican/main/mod.ts';
+
 async function signMessage() {
   const { privateKeyPem } = await Pemmican.generateKeyPair(); // Assume privateKeyPem is obtained
   const data = 'Hello, Pemmican!';
