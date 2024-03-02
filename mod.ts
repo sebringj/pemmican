@@ -1,6 +1,6 @@
 /**
  * A utility class named Pemmican for cryptographic operations, 
- * including converting between PEM format and ArrayBuffer, generating key pairs, and signing data.
+ * including converting between PEM format and ArrayBuffer, generating key pairs, signing and verifying data.
  */
 export class Pemmican {
 
