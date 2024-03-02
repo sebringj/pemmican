@@ -4,11 +4,6 @@
 
 Just like its namesake, the legendary survival food, our "pemmican" module delivers the essentials—public/private key generation, PEM conversion, data signing and verification—without any of the bloat.
 
-## Why Choose Pemmican?
-
-- **Compact:** Just as pemmican condensed vital sustenance into a small package, our module compresses complex crypto functionality into digestible, easy-to-use methods.
-- **Efficient:** Every function in "pemmican" is optimized for performance. It's like getting your daily dose of crypto-vitamins in one go—no filler, all killer.
-
 ## Getting Started
 
 ### Generating a Key Pair
