@@ -55,8 +55,8 @@ export class Pemmican {
     const publicKeyBuffer = await crypto.subtle.exportKey('spki', keyPair.publicKey);
     const privateKeyBuffer = await crypto.subtle.exportKey('pkcs8', keyPair.privateKey);
 
-    const publicKeyPem = CryptoUtils.arrayBufferToPem(publicKeyBuffer, 'PUBLIC');
-    const privateKeyPem = CryptoUtils.arrayBufferToPem(privateKeyBuffer, 'PRIVATE');
+    const publicKeyPem = Pemmican.arrayBufferToPem(publicKeyBuffer, 'PUBLIC');
+    const privateKeyPem = Pemmican.arrayBufferToPem(privateKeyBuffer, 'PRIVATE');
 
     return { publicKeyPem, privateKeyPem };
   }
@@ -74,7 +74,7 @@ export class Pemmican {
     const encoder = new TextEncoder();
     const data = encoder.encode(params.data);
 
-    const privateKeyBuffer = CryptoUtils.pemToArrayBuffer(params.privateKeyPem, 'PRIVATE');
+    const privateKeyBuffer = Pemmican.pemToArrayBuffer(params.privateKeyPem, 'PRIVATE');
 
     const importedPrivateKey = await crypto.subtle.importKey(
       'pkcs8',
