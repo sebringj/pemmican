@@ -5,7 +5,7 @@ import {
 } from 'https://deno.land/std/testing/asserts.ts';
 
 Deno.test('Generate Key Pair', async () => {
-  const { publicKeyPem, privateKeyPem } = await CryptoUtils.generateKeyPair();
+  const { publicKeyPem, privateKeyPem } = await Pemmican.generateKeyPair();
   assertStringIncludes(publicKeyPem, '-----BEGIN PUBLIC KEY-----');
   assertStringIncludes(privateKeyPem, '-----BEGIN PRIVATE KEY-----');
 });
