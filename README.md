@@ -1,8 +1,8 @@
 <h1 style="display:flex;align-items:center;justify-content:center;flex-direction:row"><img src="./pemmican.webp" width="40px" height="40px" /> Pemmican</h1>
 
-## Simplified public/private key pair generation, signing and verification
+## public/private key pair generation, signing and verification
 
-Just like its namesake, the legendary survival food, our "pemmican" module is designed to pack a mighty punch of cryptographic power into your Deno projects. With a lean, mean selection of functions, this module is all about delivering the essential nutrients—public/private key generation, PEM conversion, and data signing—without any of the bloat.
+Just like its namesake, the legendary survival food, our "pemmican" module delivers the essentials—public/private key generation, PEM conversion, data signing and verification—without any of the bloat.
 
 ## Why Choose Pemmican?
 
