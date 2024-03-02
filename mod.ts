@@ -30,7 +30,7 @@ export class Pemmican {
     const byteString = atob(base64);
     const byteArray = new Uint8Array(byteString.length);
     for (let i = 0; i < byteString.length; i++) {
-        byteArray[i] = byteString.charCodeAt(i);
+      byteArray[i] = byteString.charCodeAt(i);
     }
     return byteArray.buffer;
   }
@@ -42,14 +42,14 @@ export class Pemmican {
    */
   static async generateKeyPair(): Promise<{ publicKeyPem: string, privateKeyPem: string }> {
     const keyPair = await crypto.subtle.generateKey(
-        {
-            name: 'RSASSA-PKCS1-v1_5',
-            modulusLength: 2048,
-            publicExponent: new Uint8Array([1, 0, 1]),
-            hash: 'SHA-256'
-        },
-        true,
-        ['sign', 'verify']
+      {
+        name: 'RSASSA-PKCS1-v1_5',
+        modulusLength: 2048,
+        publicExponent: new Uint8Array([1, 0, 1]),
+        hash: 'SHA-256'
+      },
+      true,
+      ['sign', 'verify']
     );
 
     const publicKeyBuffer = await crypto.subtle.exportKey('spki', keyPair.publicKey);
@@ -77,14 +77,14 @@ export class Pemmican {
     const privateKeyBuffer = CryptoUtils.pemToArrayBuffer(params.privateKeyPem, 'PRIVATE');
 
     const importedPrivateKey = await crypto.subtle.importKey(
-        'pkcs8',
-        privateKeyBuffer,
-        {
-            name: 'RSASSA-PKCS1-v1_5',
-            hash: 'SHA-256'
-        },
-        false,
-        ['sign']
+      'pkcs8',
+      privateKeyBuffer,
+      {
+        name: 'RSASSA-PKCS1-v1_5',
+        hash: 'SHA-256'
+      },
+      false,
+      ['sign']
     );
 
     const signatureArrayBuffer = await crypto.subtle.sign('RSASSA-PKCS1-v1_5', importedPrivateKey, data);
@@ -93,5 +93,38 @@ export class Pemmican {
       signatureBase64: btoa(String.fromCharCode(...byteArray)),
       timeStampISO: new Date().toISOString()
     }
+  }
+
+  /**
+   * Verifies a signature against the provided data using a public key.
+   * 
+   * @param params An object containing the data, the base64 encoded signature to verify, and the PEM-formatted public key.
+   * @returns A Promise that resolves to a boolean indicating whether the signature is valid.
+   */
+  static async verifySignature(params: { data: string, signatureBase64: string, publicKeyPem: string }): Promise<boolean> {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(params.data);
+
+    const signatureBuffer = Uint8Array.from(atob(params.signatureBase64), c => c.charCodeAt(0));
+
+    const publicKeyBuffer = Pemmican.pemToArrayBuffer(params.publicKeyPem, 'PUBLIC');
+
+    const importedPublicKey = await crypto.subtle.importKey(
+      'spki',
+      publicKeyBuffer,
+      {
+        name: 'RSASSA-PKCS1-v1_5',
+        hash: 'SHA-256'
+      },
+      false,
+      ['verify']
+    );
+
+    return crypto.subtle.verify(
+      'RSASSA-PKCS1-v1_5',
+      importedPublicKey,
+      signatureBuffer,
+      data
+    );
   }
 }
