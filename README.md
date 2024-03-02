@@ -8,7 +8,6 @@ Just like its namesake, the legendary survival food, our "pemmican" module is de
 
 - **Compact:** Just as pemmican condensed vital sustenance into a small package, our module compresses complex crypto functionality into digestible, easy-to-use methods.
 - **Efficient:** Every function in "pemmican" is optimized for performance. It's like getting your daily dose of crypto-vitamins in one go—no filler, all killer.
-- **Versatile:** Whether you're trailblazing through the wilderness of web development or setting up camp in the back-end, "pemmican" has got your back. It's the all-in-one toolkit for your cryptographic needs.
 
 ## Getting Started
 
