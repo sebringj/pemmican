@@ -13,7 +13,7 @@ Deno.test('Generate Key Pair', async () => {
 Deno.test('Sign Data', async () => {
   const { privateKeyPem } = await CryptoUtils.generateKeyPair();
   const data = 'Hello, World!';
-  const { signatureBase64, timeStampISO } = await CryptoUtils.signData({ data, privateKeyPem });
+  const { signatureBase64, timeStampISO } = await Pemmican.signData({ data, privateKeyPem });
   assertEquals(typeof signatureBase64, 'string');
   assertEquals(typeof timeStampISO, 'string');
 });
