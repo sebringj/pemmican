@@ -67,3 +67,11 @@ async function verifySignature() {
 
 verifySignature();
 ```
+
+This example guides you through the process of:
+
+1. Assuming you have a public key (publicKeyPem) and a private key (privateKeyPem).
+1. Signing a message with the private key to produce a signature.
+1. Verifying the signature using the corresponding public key to ensure the message's integrity and authenticity.
+
+Remember, in a real-world scenario, the public key and the signature would typically be shared with the recipient (for verification), while the private key is securely stored and used for signing by the sender.
