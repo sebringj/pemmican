@@ -41,3 +41,29 @@ async function signMessage() {
 
 signMessage();
 ```
+
+### Verifying a Signature
+To verify a signature, you'll need the public key, the original data that was signed, and the signature you wish to verify. This ensures the integrity and authenticity of the data.
+```typescript
+import { Pemmican } from 'https://raw.githubusercontent.com/sebringj/pemmican/main/mod.ts';
+
+async function verifySignature() {
+  const { publicKeyPem } = await Pemmican.generateKeyPair(); // Assume publicKeyPem is obtained separately
+  const data = 'Hello, Pemmican!';
+  const { privateKeyPem } = await Pemmican.generateKeyPair(); // Assume privateKeyPem is available for signing
+  
+  // Signing the data to generate a signature
+  const { signatureBase64 } = await Pemmican.signData({ data, privateKeyPem });
+
+  // Now, verifying the signature with the public key
+  const isValid = await Pemmican.verifySignature({ data, signatureBase64, publicKeyPem });
+
+  if (isValid) {
+    console.log('The signature is valid.');
+  } else {
+    console.log('The signature is invalid.');
+  }
+}
+
+verifySignature();
+```
