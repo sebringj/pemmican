@@ -42,9 +42,11 @@ To verify a signature, you'll need the public key, the original data that was si
 import { Pemmican } from 'https://raw.githubusercontent.com/sebringj/pemmican/main/mod.ts';
 
 async function verifySignature() {
-  const { publicKeyPem } = await Pemmican.generateKeyPair(); // Assume publicKeyPem is obtained separately
+  // Obtain initial keys, usually generated beforehand and stored
+  const { publicKeyPem, privateKeyPem } = await Pemmican.generateKeyPair();
+
+  // Create test data
   const data = 'Hello, Pemmican!';
-  const { privateKeyPem } = await Pemmican.generateKeyPair(); // Assume privateKeyPem is available for signing
   
   // Signing the data to generate a signature
   const { signatureBase64 } = await Pemmican.signData({ data, privateKeyPem });
