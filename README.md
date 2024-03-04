@@ -7,12 +7,12 @@ Just like its namesake, the legendary survival food, our "pemmican" module deliv
 ## Getting Started
 
 ### Generating a Key Pair
-Generate a public/private key pair to start securing your application.
+Generate a public/private key pair to start securing your application. There are 2 types of key-pairs. One can be used for signing and another for encrypting and decrypting. The parameters "generateKeyPair" takes is either "signing" or "encryption".
 ```typescript
 import { Pemmican } from 'https://raw.githubusercontent.com/sebringj/pemmican/main/mod.ts';
 
 async function generateKeys() {
-  const { publicKeyPem, privateKeyPem } = await Pemmican.generateKeyPair();
+  const { publicKeyPem, privateKeyPem } = await Pemmican.generateKeyPair('signing');
   console.log('Public Key:', publicKeyPem);
   console.log('Private Key:', privateKeyPem);
 }
@@ -26,7 +26,7 @@ Sign a piece of data using your private key, ensuring that it can be verified by
 import { Pemmican } from 'https://raw.githubusercontent.com/sebringj/pemmican/main/mod.ts';
 
 async function signMessage() {
-  const { privateKeyPem } = await Pemmican.generateKeyPair(); // Assume privateKeyPem is obtained
+  const { privateKeyPem } = await Pemmican.generateKeyPair('signing'); // Assume privateKeyPem is obtained
   const data = 'Hello, Pemmican!';
   const { signatureBase64, timeStampISO } = await Pemmican.signData({ data, privateKeyPem });
   console.log('Signature:', signatureBase64);
@@ -43,7 +43,7 @@ import { Pemmican } from 'https://raw.githubusercontent.com/sebringj/pemmican/ma
 
 async function verifySignature() {
   // Obtain initial keys, usually generated beforehand and stored
-  const { publicKeyPem, privateKeyPem } = await Pemmican.generateKeyPair();
+  const { publicKeyPem, privateKeyPem } = await Pemmican.generateKeyPair('signing');
 
   // Create test data
   const data = 'Hello, Pemmican!';
@@ -71,3 +71,27 @@ This example guides you through the process of:
 1. Verifying the signature using the corresponding public key to ensure the message's integrity and authenticity.
 
 Remember, in a real-world scenario, the public key and the signature would typically be shared with the recipient (for verification), while the private key is securely stored and used for signing by the sender.
+
+### Encrypt and Decrypt using public/private keys
+To encrypt a payload and decrypt it, you use the public key to encrypt and then the private key to decrypt.
+```typescript
+import { Pemmican } from 'https://raw.githubusercontent.com/sebringj/pemmican/main/mod.ts';
+
+async function encryptAndDecrypt() {
+  const { publicKeyPem, privateKeyPem } = await Pemmican.generateKeyPair('encryption');
+  const data = "Secret message";
+
+  const encryptedData = await Pemmican.encryptWithPublicKey({ data, publicKeyPem });
+  const decryptedData = await Pemmican.decryptWithPrivateKey({ encryptedData, privateKeyPem });
+  
+  if (data === decryptedData) {
+    console.log('The decrypted data matches the original data.')
+  } else {
+    console.log('The decrypted data does not match the original data.')
+  }
+}
+
+encryptAndDecrypt();
+```
+
+In this example, the sender would be given a public key first from the receiver. The sender then can use the public key to encrypt the message and only then the receiver can decrypt it.
