@@ -18,24 +18,44 @@ class Pemmican {
         }
         return byteArray.buffer;
     }
-    static async generateKeyPair() {
-        const keyPair = await crypto.subtle.generateKey({
-            name: 'RSASSA-PKCS1-v1_5',
-            modulusLength: 2048,
-            publicExponent: new Uint8Array([
-                1,
-                0,
-                1
-            ]),
-            hash: 'SHA-256'
-        }, true, [
+    static async generateKeyPair(usage) {
+        let algorithm;
+        if (usage === 'encryption') {
+            algorithm = {
+                name: 'RSA-OAEP',
+                modulusLength: 2048,
+                publicExponent: new Uint8Array([
+                    1,
+                    0,
+                    1
+                ]),
+                hash: 'SHA-256'
+            };
+        } else if (usage === 'signing') {
+            algorithm = {
+                name: 'RSA-PSS',
+                modulusLength: 2048,
+                publicExponent: new Uint8Array([
+                    1,
+                    0,
+                    1
+                ]),
+                hash: 'SHA-256'
+            };
+        } else {
+            throw new Error("Invalid usage type. Must be 'encryption' or 'signing'.");
+        }
+        const keyPair = await crypto.subtle.generateKey(algorithm, true, usage === 'encryption' ? [
+            'encrypt',
+            'decrypt'
+        ] : [
             'sign',
             'verify'
         ]);
         const publicKeyBuffer = await crypto.subtle.exportKey('spki', keyPair.publicKey);
         const privateKeyBuffer = await crypto.subtle.exportKey('pkcs8', keyPair.privateKey);
-        const publicKeyPem = Pemmican.arrayBufferToPem(publicKeyBuffer, 'PUBLIC');
-        const privateKeyPem = Pemmican.arrayBufferToPem(privateKeyBuffer, 'PRIVATE');
+        const publicKeyPem = Pemmican.arrayBufferToPem(publicKeyBuffer, usage === 'encryption' ? 'PUBLIC' : 'PUBLIC');
+        const privateKeyPem = Pemmican.arrayBufferToPem(privateKeyBuffer, usage === 'encryption' ? 'PRIVATE' : 'PRIVATE');
         return {
             publicKeyPem,
             privateKeyPem
@@ -44,14 +64,17 @@ class Pemmican {
     static async signData(params) {
         const encoder = new TextEncoder();
         const data = encoder.encode(params.data);
-        const privateKeyBuffer = Pemmican.pemToArrayBuffer(params.privateKeyPem, 'PRIVATE');
+        const privateKeyBuffer = this.pemToArrayBuffer(params.privateKeyPem, 'PRIVATE');
         const importedPrivateKey = await crypto.subtle.importKey('pkcs8', privateKeyBuffer, {
-            name: 'RSASSA-PKCS1-v1_5',
+            name: 'RSA-PSS',
             hash: 'SHA-256'
         }, false, [
             'sign'
         ]);
-        const signatureArrayBuffer = await crypto.subtle.sign('RSASSA-PKCS1-v1_5', importedPrivateKey, data);
+        const signatureArrayBuffer = await crypto.subtle.sign({
+            name: 'RSA-PSS',
+            saltLength: 32
+        }, importedPrivateKey, data);
         const byteArray = new Uint8Array(signatureArrayBuffer);
         return {
             signatureBase64: btoa(String.fromCharCode(...byteArray)),
@@ -64,12 +87,46 @@ class Pemmican {
         const signatureBuffer = Uint8Array.from(atob(params.signatureBase64), (c)=>c.charCodeAt(0));
         const publicKeyBuffer = Pemmican.pemToArrayBuffer(params.publicKeyPem, 'PUBLIC');
         const importedPublicKey = await crypto.subtle.importKey('spki', publicKeyBuffer, {
-            name: 'RSASSA-PKCS1-v1_5',
+            name: 'RSA-PSS',
             hash: 'SHA-256'
         }, false, [
             'verify'
         ]);
-        return crypto.subtle.verify('RSASSA-PKCS1-v1_5', importedPublicKey, signatureBuffer, data);
+        return crypto.subtle.verify({
+            name: 'RSA-PSS',
+            saltLength: 32
+        }, importedPublicKey, signatureBuffer, data);
+    }
+    static async encryptWithPublicKey(params) {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(params.data);
+        const publicKeyBuffer = Pemmican.pemToArrayBuffer(params.publicKeyPem, 'PUBLIC');
+        const importedPublicKey = await crypto.subtle.importKey('spki', publicKeyBuffer, {
+            name: 'RSA-OAEP',
+            hash: 'SHA-256'
+        }, false, [
+            'encrypt'
+        ]);
+        const encryptedData = await crypto.subtle.encrypt({
+            name: 'RSA-OAEP'
+        }, importedPublicKey, data);
+        const byteArray = new Uint8Array(encryptedData);
+        return btoa(String.fromCharCode(...byteArray));
+    }
+    static async decryptWithPrivateKey(params) {
+        const encryptedDataBuffer = Uint8Array.from(atob(params.encryptedData), (c)=>c.charCodeAt(0));
+        const privateKeyBuffer = Pemmican.pemToArrayBuffer(params.privateKeyPem, 'PRIVATE');
+        const importedPrivateKey = await crypto.subtle.importKey('pkcs8', privateKeyBuffer, {
+            name: 'RSA-OAEP',
+            hash: 'SHA-256'
+        }, false, [
+            'decrypt'
+        ]);
+        const decryptedData = await crypto.subtle.decrypt({
+            name: 'RSA-OAEP'
+        }, importedPrivateKey, encryptedDataBuffer);
+        const decoder = new TextDecoder();
+        return decoder.decode(decryptedData);
     }
 }
 export { Pemmican as Pemmican };
