@@ -1,8 +1,8 @@
 <h1 style="display:flex;align-items:center;justify-content:center;flex-direction:row"><img src="./pemmican.webp" width="40px" height="40px" /> Pemmican</h1>
 
-## public/private key pair generation, signing and verification
+## public/private key pair generation, signing, verification, encryption and decryption
 
-Just like its namesake, the legendary survival food, our "pemmican" module delivers the essentials—public/private key generation, PEM conversion, data signing and verification—without any of the bloat.
+Just like its namesake, the legendary survival food, our "pemmican" module delivers the essentials—public/private key generation, PEM conversion, data signing, verification and encryption/decryption—without any of the bloat.
 
 ## Getting Started
 
