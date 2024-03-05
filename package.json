@@ -1,0 +1,31 @@
+{
+  "name": "pemmican",
+  "version": "0.1.4",
+  "description": "public/private key pair generation, signing, verification, encryption and decryption",
+  "main": "dist/mod.js",
+  "types": "types/mod.d.ts",
+  "scripts": {
+    "test": "deno test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sebringj/pemmican.git"
+  },
+  "keywords": [
+    "public/private",
+    "PEM",
+    "key",
+    "pair",
+    "generation",
+    "signing",
+    "verification",
+    "encryption",
+    "decryption"
+  ],
+  "author": "Jason R. Sebring",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sebringj/pemmican/issues"
+  },
+  "homepage": "https://github.com/sebringj/pemmican#readme"
+}
