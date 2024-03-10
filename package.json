@@ -1,6 +1,6 @@
 {
   "name": "pemmican",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "public/private key pair generation, signing, verification, encryption and decryption",
   "main": "dist/mod.js",
   "types": "types/mod.d.ts",
